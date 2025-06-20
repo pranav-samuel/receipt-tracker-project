@@ -1,0 +1,80 @@
+{
+  "store_name": "Walmart",
+  "date": "2014-07-29",
+  "time": "01:57:53 pm",
+  "location": "8801 OHIO DR PLANO TX 75024",
+  "items": [
+    {
+      "product_name": "COM 3PC SET",
+      "weight": null,
+      "unit_price": null,
+      "total_price": 9.44
+    },
+    {
+      "product_name": "COM 3PK BDS",
+      "weight": null,
+      "unit_price": null,
+      "total_price": 7.24
+    },
+    {
+      "product_name": "COM BDS",
+      "weight": null,
+      "unit_price": null,
+      "total_price": 7.24
+    },
+    {
+      "product_name": "Dr. Smith's",
+      "weight": null,
+      "unit_price": null,
+      "total_price": 7.97
+    },
+    {
+      "product_name": "COM 2PK HAIR",
+      "weight": null,
+      "unit_price": null,
+      "total_price": 4.97
+    },
+    {
+      "product_name": "Baby Wipes",
+      "weight": null,
+      "unit_price": null,
+      "total_price": 1.97
+    },
+    {
+      "product_name": "COM 4PK SOCK",
+      "weight": null,
+      "unit_price": null,
+      "total_price": 4.97
+    },
+    {
+      "product_name": "COM 4PK SOCK",
+      "weight": null,
+      "unit_price": null,
+      "total_price": 4.97
+    },
+    {
+      "product_name": "Pampers",
+      "weight": null,
+      "unit_price": null,
+      "total_price": 24.94
+    },
+    {
+      "product_name": "B BRNMSANML",
+      "weight": null,
+      "unit_price": null,
+      "total_price": 1.48
+    },
+    {
+      "product_name": "Paw Patrol",
+      "weight": null,
+      "unit_price": null,
+      "total_price": 6.97
+    },
+    {
+      "product_name": "OPU G",
+      "weight": null,
+      "unit_price": null,
+      "total_price": 2.0
+    }
+  ]
+}
