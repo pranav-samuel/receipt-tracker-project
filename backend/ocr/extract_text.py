@@ -1,17 +1,30 @@
-from datetime import datetime
 import os
-from google.cloud import vision
+from google.cloud import documentai
 
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "C:\\Users\\prana\\OneDrive\\Desktop\\Documents\\GitHub\\eco-impact-tracker\\googlevisionsa.json"
-
+# sends receipt to google cloud document ai and it returns raw ocr text
 def extract_text_from_image(image_path: str) -> str:
-    client = vision.ImageAnnotatorClient()
+    client = documentai.DocumentProcessorServiceClient(
+        client_options={"api_endpoint": f"{os.getenv('GCP_LOCATION')}-documentai.googleapis.com"}
+    )
+    
+    processor_path = client.processor_path(
+        os.getenv("GCP_PROJECT_ID"),
+        os.getenv("GCP_LOCATION"),
+        os.getenv("DOCUMENT_AI_PROCESSOR_ID")
+    )
+    
+    # read image file as binary
     with open(image_path, 'rb') as image_file:
         content = image_file.read()
-    image = vision.Image(content=content)
-    response = client.text_detection(image=image)
-    annotations = response.text_annotations
-    if not annotations:
-        return "No text found"
-    return annotations[0].description.strip()
+        
+    image = documentai.RawDocument(content=content)
+    response = client.text_detection(content=content, mime_type="image/jpeg")
+    request = client.process_document(request=request)
+    
+    response = client.process_doucment(request=request)
+    
+    if not response.document.text:
+        return "No text found."
+    
+    return response.document.text.strip()
 
