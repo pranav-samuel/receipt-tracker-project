@@ -1,12 +1,12 @@
 import json
-import google.generativeai as genai
+from google import genai
 from dotenv import load_dotenv
 import os
 import re
 from backend.extra.output_formatter import save_to_json
 
 load_dotenv()
-genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
+client = genai.Client(api_key=os.getenv("GOOGLE_GEMINI_API_KEY"))
 
 def clean_gemini_output(text: str) -> str:
     return re.sub(r"^```(?:json)?\n(.+?)\n```$", r"\1", text.strip(), flags=re.DOTALL)
@@ -72,7 +72,7 @@ def send_text_to_gpt(ocr_text: str) -> dict:
     Return only valid JSON — no extra commentary or markdown formatting.
     """
 
-    model = genai.GenerativeModel("models/gemini-1.5-flash")
+    model = genai.GenerativeModel("models/gemini-2.5-flash")
     response = model.generate_content(prompt)
     cleaned_text = clean_gemini_output(response.text)
     parsed_json = json.loads(cleaned_text)
