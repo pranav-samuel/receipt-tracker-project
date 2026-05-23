@@ -17,11 +17,11 @@ def extract_text_from_image(image_path: str) -> str:
     with open(image_path, 'rb') as image_file:
         content = image_file.read()
         
-    image = documentai.RawDocument(content=content)
-    response = client.text_detection(content=content, mime_type="image/jpeg")
-    request = client.process_document(request=request)
+    raw_document = documentai.RawDocument(content=content, mime_type="image/jpeg")
+    request = documentai.ProcessRequest(name=processor_path, raw_document=raw_document)
     
-    response = client.process_doucment(request=request)
+    response = client.process_document(request=request)
+    
     
     if not response.document.text:
         return "No text found."

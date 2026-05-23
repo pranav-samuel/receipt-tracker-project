@@ -1,80 +1,60 @@
-import json
-from google import genai
-from dotenv import load_dotenv
 import os
-import re
+import json
+from typing import List, Optional
+from pydantic import BaseModel, Field # enforces data types at runtime
+from google import genai
+from google.genai import types
 from backend.extra.output_formatter import save_to_json
 
-load_dotenv()
-client = genai.Client(api_key=os.getenv("GOOGLE_GEMINI_API_KEY"))
+# define schema, use pydantic model
+class ReceiptItemSchema(BaseModel):
+    raw_item_name: str = Field(description="Exactly what the receipt says (e.g., '12 CT LRG EGGS')")
+    standard_name: str = Field(description="A clean, generic name (e.g., 'Eggs')")
+    category: str = Field(description="Accurate expenditure category (e.g., 'Groceries')")
+    quantity: int = Field(description="The number of packs/items purchased on that line row. Usually 1.")
+    package_size: int = Field(description="The count of items inside the pack (e.g., 12 for a 12-pack, 24 for a 24-pack). If it's a single item or not specified, default to 1.")
+    price: float = Field(description="The total price paid for this line item")
 
-def clean_gemini_output(text: str) -> str:
-    return re.sub(r"^```(?:json)?\n(.+?)\n```$", r"\1", text.strip(), flags=re.DOTALL)
+class ReceiptSchema(BaseModel):
+    store_name: str = Field(description="The identified name of the store or merchant")
+    purchase_date: str = Field(description="The transaction date formatted strictly as YYYY-MM-DD")
+    total_amount: float = Field(description="The calculated grand total paid on the receipt")
+    items: List[ReceiptItemSchema] = Field(description="List of every item found on the receipt")
 
-def send_text_to_gpt(ocr_text: str) -> dict:
+# takes raw ocr block and sends it to gemini to contextualize
+def send_text_to_gemini(ocr_text: str) -> dict:
+
+    # authenticate with adc
+    client = genai.Client(
+        vertexai=True,
+        project=os.getenv("GCP_PROJECT_ID"),
+        location="us-central1"
+    )
+
     prompt = f"""
-    You are an expert assistant specializing in interpreting and cleaning grocery receipt data extracted from OCR. 
-
-    Receipts often contain cryptic abbreviations, truncated product names, unclear layouts, and missing information. Your task is to carefully analyze the raw OCR text and infer the correct and complete details of each purchased item.
-
-    For each item on the receipt, extract and normalize the following information:
-
-    - **product_name:** A clear, human-readable product name, expanded from any abbreviations or shorthand.
-    - **weight:** The weight of the item in kilograms (kg), if present or inferable; otherwise null.
-    - **unit_price:** The price per kilogram or per unit, if present or inferable; otherwise null.
-    - **total_price:** The total price paid for that item.
-    - **store_name:** The name of the store where the purchase was made, inferred from the receipt header or other contextual clues.
-    - **date:** The date of the purchase in YYYY-MM-DD format, inferred from the receipt text.
-    - **time:** The time of the purchase in HH:MM:SS am/pm format, inferred from the receipt text. The receipt will most likely have a 24-hour format, so convert it to 12-hour format with am/pm.
-    - **location:** The location of the store, if available; otherwise null.
-    If some information is missing or unclear, use context clues from surrounding lines or common retail patterns to infer the best possible values.
-
-    Example interpretations:
-
-    Input line: "MILK 2% 1GAL"
-    Output: 
+    Analyze this raw text extracted from a shopping receipt.
+    Identify the store name, transaction date, total amount paid, and every individual item purchased.
+    Clean up cryptic shorthand name items into recognizable, standardized items and categorize them accurately.
     
-    "product_name": "Milk, fat 2%, 1 gallon",
-    "weight": null,
-    "unit_price": null,
-    "total_price": 3.99
-    
-
-    Input lines:  
-    "BAN 1 LB"  
-    "$0.89/LB"  
-    "0.45"  
-    Output: 
-    
-    "product_name": "Bananas",
-    "weight": 0.45,
-    "unit_price": 0.89,
-    "total_price": 0.40
-    
-
-    Input snippet:  
-    "STORE: Whole Foods"  
-    "DATE: 2025-06-10"
-    "TIME": "14:30:24"
-    "LOCATION: 8801 OHIO DR PLANO TX 75024"
-
-    Extract "store_name" as "Whole Foods" and "date" as "2025-06-10" "time" as "2:30:24 pm" and "location" as "8801 OHIO DR PLANO TX 75024".
-
-    Please output your response as a JSON object where each entry represents an item purchased, with keys as described above. Also include top-level keys `"store_name"`, `"date"`, `"time"` and `"location"` representing the receipt's metadata.
-
-    Here is the raw OCR text of the receipt:
-
+    Raw Receipt Text:
+    \"\"\"
     {ocr_text}
-
-    ---
-
-    Remember: Be sure to clean and normalize item names, prices, and weights for consistency and accuracy.  
-    Return only valid JSON — no extra commentary or markdown formatting.
+    \"\"\"
     """
 
-    model = genai.GenerativeModel("models/gemini-2.5-flash")
-    response = model.generate_content(prompt)
-    cleaned_text = clean_gemini_output(response.text)
-    parsed_json = json.loads(cleaned_text)
+    # make gemini fill out pydantic schema
+    response = client.models.generate_content(
+        model='gemini-2.5-flash',
+        contents=prompt,
+        config=types.GenerateContentConfig(
+            response_mime_type="application/json",
+            response_schema=ReceiptSchema,
+        ),
+    )
+
+    # get python dict and store as json
+    parsed_json = json.loads(response.text)
+    
+    # save to directory
     save_to_json(parsed_json, "structured_receipt.json")
     return parsed_json

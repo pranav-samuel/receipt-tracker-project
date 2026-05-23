@@ -1,25 +1,38 @@
-from backend.ocr.extract_text import extract_text_from_image
-from backend.nlp.parse_receipt import send_text_to_gpt
-from backend.supabase.upload_to_supabase import upload_receipt
 import json
+import os
+from dotenv import load_dotenv
+load_dotenv()
+from backend.ocr.extract_text import extract_text_from_image
+from backend.nlp.parse_receipt import send_text_to_gemini
+from backend.supabase.upload_to_supabase import upload_receipt
 
-image_path = r"C:/Users/prana/Downloads/walmartreceipt.jpg"
+load_dotenv()
 
-print("⏳ Extracting text with Google Cloud Vision...")
-ocr_text = extract_text_from_image(image_path)
-print("✅ Extracted OCR Text:")
-print(ocr_text)
+IMAGE_PATH = "/Users/pranavsamuel/Downloads/walmart_receipt.png"
 
-print("\n⏳ Sending text to GPT...")
-try:
-    parsed_text = send_text_to_gpt(ocr_text)
-    print("✅ GPT Parsed Data:")
-    print(parsed_text)
-except Exception as e:
-    print("❌ GPT failed:", e)
+def main():
+    print("⏳ Step 1: Extracting structural text with Document AI...")
+    try:
+        ocr_text = extract_text_from_image(IMAGE_PATH)
+        print("✅ Extracted OCR Text from Document AI successfully!")
+    except Exception as e:
+        print(f"❌ Document AI Processing failed: {e}")
+        return
 
-print("\n⏳ Saving structured receipt data to Supabase...")
-with open("structured_receipt.json") as f:
-    receipt_data = json.load(f)
-upload_receipt(receipt_data)
-print("✅ Receipt data uploaded to Supabase successfully!")
+    print("\n⏳ Step 2: Normalizing text via Gemini Enterprise...")
+    try:
+        parsed_receipt_dict = send_text_to_gemini(ocr_text)
+        print("✅ Gemini Structured Data successfully parsed using Pydantic!")
+    except Exception as e:
+        print(f"❌ Gemini processing failed: {e}")
+        return
+
+    print("\n⏳ Step 3: Saving relational receipt tables to Supabase...")
+    try:
+        upload_receipt(parsed_receipt_dict)
+        print("🎉 Success! Receipt records and analytical line items are live in Supabase.")
+    except Exception as e:
+        print(f"❌ Supabase execution failed: {e}")
+
+if __name__ == "__main__":
+    main()

@@ -1,35 +1,41 @@
-from supabase import create_client, Client
 import os
-import uuid
-from dotenv import load_dotenv
+from supabase import create_client, Client
 
-load_dotenv()
 url: str = os.getenv("SUPABASE_URL")
-key: str = os.getenv("SUPABASE_KEY")
+key: str = os.getenv("SUPABASE_ANON_KEY") 
+
 supabase: Client = create_client(url, key)
 
+
 def upload_receipt(data: dict):
-    # Insert into receipts table
-    receipt_id = str(uuid.uuid4())
-    receipt = {
-        "id": receipt_id,
+    
+    receipt_record = {
         "store_name": data["store_name"],
-        "date": data["date"],
-        "location": data["location"]
+        "purchase_date": data["purchase_date"],
+        "total_amount": data["total_amount"]
     }
+    
+    # insert into the main 'receipts' table
+    receipt_insert = supabase.table("receipts").insert(receipt_record).execute()
+    
+    if not receipt_insert.data:
+        raise RuntimeError("Failed to insert receipt into Supabase.")
+         
+    # get the auto-generated UUID
+    db_receipt_id = receipt_insert.data[0]["id"]
 
-    supabase.table("receipts").insert(receipt).execute()
-
-    # Insert items
-    items = []
+    # add each individual item into list and insert list as receipt_items
+    items_to_insert = []
     for item in data["items"]:
-        items.append({
-            "id": str(uuid.uuid4()),
-            "receipt_id": receipt_id,
-            "product_name": item["product_name"],
-            "total_price": item["total_price"],
-            "weight": item.get("weight"),
-            "unit_price": item.get("unit_price")
+        items_to_insert.append({
+            "receipt_id": db_receipt_id, # Relational link
+            "raw_item_name": item["raw_item_name"],
+            "standard_name": item["standard_name"],
+            "category": item["category"],
+            "package_size": item["package_size"],
+            "quantity": item["quantity"],
+            "price": item["price"]
         })
 
-    supabase.table("items").insert(items).execute()
+    if items_to_insert:
+        supabase.table("receipt_items").insert(items_to_insert).execute()
