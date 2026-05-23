@@ -12,6 +12,9 @@ def upload_receipt(data: dict):
     receipt_record = {
         "store_name": data["store_name"],
         "purchase_date": data["purchase_date"],
+        "purchase_time": data.get("purchase_time"),
+        "location": data.get("location"),
+        "discount_total": data.get("discount_total", 0.00),
         "total_amount": data["total_amount"]
     }
     
@@ -28,12 +31,13 @@ def upload_receipt(data: dict):
     items_to_insert = []
     for item in data["items"]:
         items_to_insert.append({
-            "receipt_id": db_receipt_id, # Relational link
+            "receipt_id": db_receipt_id, # relational link
             "raw_item_name": item["raw_item_name"],
             "standard_name": item["standard_name"],
             "category": item["category"],
             "package_size": item["package_size"],
             "quantity": item["quantity"],
+            "weight": item.get("weight"),
             "price": item["price"]
         })
 

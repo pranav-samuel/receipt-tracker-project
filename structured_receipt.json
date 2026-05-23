@@ -1,80 +1,318 @@
 {
   "store_name": "Walmart",
-  "date": "2014-07-29",
-  "time": "01:57:53 pm",
-  "location": "8801 OHIO DR PLANO TX 75024",
+  "purchase_date": "2023-06-26",
+  "purchase_time": "12:40:04 pm",
+  "location": "5000 RHONDA RD ANDERSON CA 96007",
+  "discount_total": 0.0,
+  "total_amount": 120.67,
   "items": [
     {
-      "product_name": "COM 3PC SET",
+      "raw_item_name": "BELL PEPPER",
+      "standard_name": "Bell Pepper",
+      "category": "Groceries",
+      "quantity": 1,
+      "package_size": 1,
       "weight": null,
-      "unit_price": null,
-      "total_price": 9.44
+      "unit_price": 6.34,
+      "discount": 0.0,
+      "price": 6.34
     },
     {
-      "product_name": "COM 3PK BDS",
+      "raw_item_name": "CILANTRO",
+      "standard_name": "Cilantro",
+      "category": "Groceries",
+      "quantity": 1,
+      "package_size": 1,
       "weight": null,
-      "unit_price": null,
-      "total_price": 7.24
+      "unit_price": 0.58,
+      "discount": 0.0,
+      "price": 0.58
     },
     {
-      "product_name": "COM BDS",
+      "raw_item_name": "CHARD",
+      "standard_name": "Swiss Chard",
+      "category": "Groceries",
+      "quantity": 1,
+      "package_size": 1,
       "weight": null,
-      "unit_price": null,
-      "total_price": 7.24
+      "unit_price": 1.47,
+      "discount": 0.0,
+      "price": 1.47
     },
     {
-      "product_name": "Dr. Smith's",
+      "raw_item_name": "RED ONION",
+      "standard_name": "Red Onion",
+      "category": "Groceries",
+      "quantity": 1,
+      "package_size": 1,
       "weight": null,
-      "unit_price": null,
-      "total_price": 7.97
+      "unit_price": 1.67,
+      "discount": 0.0,
+      "price": 1.67
     },
     {
-      "product_name": "COM 2PK HAIR",
+      "raw_item_name": "BROC CROWNS",
+      "standard_name": "Broccoli Crowns",
+      "category": "Groceries",
+      "quantity": 1,
+      "package_size": 1,
       "weight": null,
-      "unit_price": null,
-      "total_price": 4.97
+      "unit_price": 1.53,
+      "discount": 0.0,
+      "price": 1.53
     },
     {
-      "product_name": "Baby Wipes",
+      "raw_item_name": "ORG CELERY",
+      "standard_name": "Organic Celery",
+      "category": "Groceries",
+      "quantity": 1,
+      "package_size": 1,
       "weight": null,
-      "unit_price": null,
-      "total_price": 1.97
+      "unit_price": 1.76,
+      "discount": 0.0,
+      "price": 1.76
     },
     {
-      "product_name": "COM 4PK SOCK",
+      "raw_item_name": "BULK PEARS",
+      "standard_name": "Pears",
+      "category": "Groceries",
+      "quantity": 1,
+      "package_size": 1,
       "weight": null,
-      "unit_price": null,
-      "total_price": 4.97
+      "unit_price": 1.28,
+      "discount": 0.0,
+      "price": 1.28
     },
     {
-      "product_name": "COM 4PK SOCK",
+      "raw_item_name": "BELL PEPPER",
+      "standard_name": "Bell Pepper",
+      "category": "Groceries",
+      "quantity": 1,
+      "package_size": 1,
       "weight": null,
-      "unit_price": null,
-      "total_price": 4.97
+      "unit_price": 6.34,
+      "discount": 0.0,
+      "price": 6.34
     },
     {
-      "product_name": "Pampers",
+      "raw_item_name": "CILANTRO",
+      "standard_name": "Cilantro",
+      "category": "Groceries",
+      "quantity": 1,
+      "package_size": 1,
       "weight": null,
-      "unit_price": null,
-      "total_price": 24.94
+      "unit_price": 0.58,
+      "discount": 0.0,
+      "price": 0.58
     },
     {
-      "product_name": "B BRNMSANML",
+      "raw_item_name": "CHARD",
+      "standard_name": "Swiss Chard",
+      "category": "Groceries",
+      "quantity": 1,
+      "package_size": 1,
       "weight": null,
-      "unit_price": null,
-      "total_price": 1.48
+      "unit_price": 1.47,
+      "discount": 0.0,
+      "price": 1.47
     },
     {
-      "product_name": "Paw Patrol",
+      "raw_item_name": "RED ONION",
+      "standard_name": "Red Onion",
+      "category": "Groceries",
+      "quantity": 1,
+      "package_size": 1,
       "weight": null,
-      "unit_price": null,
-      "total_price": 6.97
+      "unit_price": 1.67,
+      "discount": 0.0,
+      "price": 1.67
     },
     {
-      "product_name": "OPU G",
+      "raw_item_name": "BROC CROWNS",
+      "standard_name": "Broccoli Crowns",
+      "category": "Groceries",
+      "quantity": 1,
+      "package_size": 1,
       "weight": null,
-      "unit_price": null,
-      "total_price": 2.0
+      "unit_price": 1.53,
+      "discount": 0.0,
+      "price": 1.53
+    },
+    {
+      "raw_item_name": "ORG CELERY",
+      "standard_name": "Organic Celery",
+      "category": "Groceries",
+      "quantity": 1,
+      "package_size": 1,
+      "weight": null,
+      "unit_price": 1.76,
+      "discount": 0.0,
+      "price": 1.76
+    },
+    {
+      "raw_item_name": "BULK PEARS",
+      "standard_name": "Pears",
+      "category": "Groceries",
+      "quantity": 1,
+      "package_size": 1,
+      "weight": null,
+      "unit_price": 1.28,
+      "discount": 0.0,
+      "price": 1.28
+    },
+    {
+      "raw_item_name": "BELL PEPPER",
+      "standard_name": "Bell Pepper",
+      "category": "Groceries",
+      "quantity": 1,
+      "package_size": 1,
+      "weight": null,
+      "unit_price": 6.34,
+      "discount": 0.0,
+      "price": 6.34
+    },
+    {
+      "raw_item_name": "CILANTRO",
+      "standard_name": "Cilantro",
+      "category": "Groceries",
+      "quantity": 1,
+      "package_size": 1,
+      "weight": null,
+      "unit_price": 0.58,
+      "discount": 0.0,
+      "price": 0.58
+    },
+    {
+      "raw_item_name": "CHARD",
+      "standard_name": "Swiss Chard",
+      "category": "Groceries",
+      "quantity": 1,
+      "package_size": 1,
+      "weight": null,
+      "unit_price": 1.47,
+      "discount": 0.0,
+      "price": 1.47
+    },
+    {
+      "raw_item_name": "RED ONION",
+      "standard_name": "Red Onion",
+      "category": "Groceries",
+      "quantity": 1,
+      "package_size": 1,
+      "weight": null,
+      "unit_price": 1.67,
+      "discount": 0.0,
+      "price": 1.67
+    },
+    {
+      "raw_item_name": "BROC CROWNS",
+      "standard_name": "Broccoli Crowns",
+      "category": "Groceries",
+      "quantity": 1,
+      "package_size": 1,
+      "weight": null,
+      "unit_price": 1.53,
+      "discount": 0.0,
+      "price": 1.53
+    },
+    {
+      "raw_item_name": "ORG CELERY",
+      "standard_name": "Organic Celery",
+      "category": "Groceries",
+      "quantity": 1,
+      "package_size": 1,
+      "weight": null,
+      "unit_price": 1.76,
+      "discount": 0.0,
+      "price": 1.76
+    },
+    {
+      "raw_item_name": "BULK PEARS",
+      "standard_name": "Pears",
+      "category": "Groceries",
+      "quantity": 1,
+      "package_size": 1,
+      "weight": null,
+      "unit_price": 1.28,
+      "discount": 0.0,
+      "price": 1.28
+    },
+    {
+      "raw_item_name": "BELL PEPPER",
+      "standard_name": "Bell Pepper",
+      "category": "Groceries",
+      "quantity": 1,
+      "package_size": 1,
+      "weight": null,
+      "unit_price": 6.34,
+      "discount": 0.0,
+      "price": 6.34
+    },
+    {
+      "raw_item_name": "CILANTRO",
+      "standard_name": "Cilantro",
+      "category": "Groceries",
+      "quantity": 1,
+      "package_size": 1,
+      "weight": null,
+      "unit_price": 0.58,
+      "discount": 0.0,
+      "price": 0.58
+    },
+    {
+      "raw_item_name": "CHARD",
+      "standard_name": "Swiss Chard",
+      "category": "Groceries",
+      "quantity": 1,
+      "package_size": 1,
+      "weight": null,
+      "unit_price": 1.47,
+      "discount": 0.0,
+      "price": 1.47
+    },
+    {
+      "raw_item_name": "RED ONION",
+      "standard_name": "Red Onion",
+      "category": "Groceries",
+      "quantity": 1,
+      "package_size": 1,
+      "weight": null,
+      "unit_price": 1.67,
+      "discount": 0.0,
+      "price": 1.67
+    },
+    {
+      "raw_item_name": "BROC CROWNS",
+      "standard_name": "Broccoli Crowns",
+      "category": "Groceries",
+      "quantity": 1,
+      "package_size": 1,
+      "weight": null,
+      "unit_price": 1.53,
+      "discount": 0.0,
+      "price": 1.53
+    },
+    {
+      "raw_item_name": "ORG CELERY",
+      "standard_name": "Organic Celery",
+      "category": "Groceries",
+      "quantity": 1,
+      "package_size": 1,
+      "weight": null,
+      "unit_price": 1.76,
+      "discount": 0.0,
+      "price": 1.76
+    },
+    {
+      "raw_item_name": "BULK PEARS",
+      "standard_name": "Pears",
+      "category": "Groceries",
+      "quantity": 1,
+      "package_size": 1,
+      "weight": null,
+      "unit_price": 1.28,
+      "discount": 0.0,
+      "price": 1.28
     }
   ]
 }
