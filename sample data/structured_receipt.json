@@ -1,0 +1,80 @@
+{
+  "store_name": "Walmart",
+  "purchase_date": "2023-06-26",
+  "purchase_time": "12:40:04 pm",
+  "location": "5000 RHONDA RD ANDERSON CA 96007",
+  "discount_total": 0.0,
+  "total_amount": 120.67,
+  "items": [
+    {
+      "raw_item_name": "BELL PEPPER",
+      "standard_name": "Bell Pepper",
+      "category": "Produce",
+      "quantity": 4,
+      "package_size": 1,
+      "weight": null,
+      "discount": 0.0,
+      "price": 25.36
+    },
+    {
+      "raw_item_name": "CILANTRO",
+      "standard_name": "Cilantro",
+      "category": "Produce",
+      "quantity": 4,
+      "package_size": 1,
+      "weight": null,
+      "discount": 0.0,
+      "price": 2.32
+    },
+    {
+      "raw_item_name": "CHARD",
+      "standard_name": "Chard",
+      "category": "Produce",
+      "quantity": 4,
+      "package_size": 1,
+      "weight": null,
+      "discount": 0.0,
+      "price": 5.88
+    },
+    {
+      "raw_item_name": "RED ONION",
+      "standard_name": "Red Onion",
+      "category": "Produce",
+      "quantity": 4,
+      "package_size": 1,
+      "weight": null,
+      "discount": 0.0,
+      "price": 6.68
+    },
+    {
+      "raw_item_name": "BROC CROWNS",
+      "standard_name": "Broccoli Crowns",
+      "category": "Produce",
+      "quantity": 4,
+      "package_size": 1,
+      "weight": null,
+      "discount": 0.0,
+      "price": 6.12
+    },
+    {
+      "raw_item_name": "ORG CELERY",
+      "standard_name": "Organic Celery",
+      "category": "Produce",
+      "quantity": 4,
+      "package_size": 1,
+      "weight": null,
+      "discount": 0.0,
+      "price": 7.04
+    },
+    {
+      "raw_item_name": "BULK PEARS",
+      "standard_name": "Pears (Bulk)",
+      "category": "Produce",
+      "quantity": 4,
+      "package_size": 1,
+      "weight": null,
+      "discount": 0.0,
+      "price": 5.12
+    }
+  ]
+}
