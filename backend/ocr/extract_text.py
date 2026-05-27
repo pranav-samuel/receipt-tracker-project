@@ -1,4 +1,5 @@
 import os
+import mimetypes
 from google.cloud import documentai
 
 # sends receipt to google cloud document ai and it returns raw ocr text
@@ -17,7 +18,8 @@ def extract_text_from_image(image_path: str) -> str:
     with open(image_path, 'rb') as image_file:
         content = image_file.read()
         
-    raw_document = documentai.RawDocument(content=content, mime_type="image/jpeg")
+    mime_type, _ = mimetypes.guess_type(image_path)
+    raw_document = documentai.RawDocument(content=content, mime_type=mime_type or "image/jpeg")
     request = documentai.ProcessRequest(name=processor_path, raw_document=raw_document)
     
     response = client.process_document(request=request)

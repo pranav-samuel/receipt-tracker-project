@@ -1,15 +1,16 @@
 import React, { useState } from 'react';
-import { 
-  StyleSheet, 
-  Text, 
-  View, 
-  TextInput, 
-  ScrollView, 
-  TouchableOpacity, 
-  SafeAreaView, 
+import {
+  StyleSheet,
+  Text,
+  View,
+  TextInput,
+  ScrollView,
+  TouchableOpacity,
+  SafeAreaView,
   Alert,
   ActivityIndicator
 } from 'react-native';
+import * as ImagePicker from 'expo-image-picker';
 import { supabase } from './supabaseClient';
 
 export default function App() {
@@ -18,22 +19,37 @@ export default function App() {
   // initialize vars
   const [storeName, setStoreName] = useState('');
   const [purchaseDate, setPurchaseDate] = useState('');
+  const [purchaseTime, setPurchaseTime] = useState('');
   const [location, setLocation] = useState('');
+  const [discountTotal, setDiscountTotal] = useState('');
   const [totalAmount, setTotalAmount] = useState('');
   const [items, setItems] = useState([]);
 
-  // first, imma handle simulation with my sample walmart receipt
-  const handleSimulateScan = async () => {
+  // accesses your photo library
+  const handleScanReceipt = async () => {
+    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (status !== 'granted') {
+      Alert.alert('Permission Required', 'Please allow photo library access to scan receipts.');
+      return;
+    }
+
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ['images'],
+      quality: 1,
+    });
+
+    if (result.canceled) return;
+
     setLoading(true);
     try {
-      const BACKEND_URL = 'http://127.0.0.1:8000/api/parse-receipt'; 
+      const asset = result.assets[0];
+      const BACKEND_URL = 'http://192.168.1.166:8000/api/parse-receipt';
 
-      // create multipart payload
       const formData = new FormData();
       formData.append('file', {
-        uri: 'file:///placeholder-path/walmart_receipt.png', // i need to replace with dynamic file later
-        name: 'receipt.png',
-        type: 'image/png',
+        uri: asset.uri,
+        name: asset.fileName || 'receipt.jpg',
+        type: asset.mimeType || 'image/jpeg',
       });
 
       const response = await fetch(BACKEND_URL, {
@@ -49,7 +65,9 @@ export default function App() {
       // prefill with receipt data
       setStoreName(data.store_name);
       setPurchaseDate(data.purchase_date);
+      setPurchaseTime(data.purchase_time || '');
       setLocation(data.location || '');
+      setDiscountTotal(String(data.discount_total ?? ''));
       setTotalAmount(String(data.total_amount));
       
       // react needs IDing to distinguish inivid rows from each other
@@ -59,10 +77,10 @@ export default function App() {
       }));
       setItems(itemsWithIds);
 
-      Alert.alert('✅ Parsing Complete', 'Review information and make adjustments before submission.');
+      Alert.alert('Parsing Complete', 'Review information and make adjustments before submission.');
     } catch (err) {
       console.error(err);
-      Alert.alert('❌ Scanning Failed', err.message);
+      Alert.alert('Scanning Failed', err.message);
     } finally {
       setLoading(false);
     }
@@ -92,7 +110,9 @@ export default function App() {
         .insert([{
           store_name: storeName,
           purchase_date: purchaseDate,
-          location: location,
+          purchase_time: purchaseTime || null,
+          location: location || null,
+          discount_total: parseFloat(discountTotal) || 0.00,
           total_amount: parseFloat(totalAmount) || 0.00
         }])
         .select();
@@ -107,6 +127,9 @@ export default function App() {
         standard_name: item.standard_name,
         category: item.category,
         quantity: item.quantity,
+        package_size: item.package_size || 1,
+        weight: item.weight || null,
+        discount: parseFloat(item.discount) || 0.00,
         price: parseFloat(item.price) || 0.00
       }));
 
@@ -122,12 +145,14 @@ export default function App() {
       // reset
       setStoreName('');
       setPurchaseDate('');
+      setPurchaseTime('');
       setLocation('');
+      setDiscountTotal('');
       setTotalAmount('');
       setItems([]);
     } catch (error) {
       console.error(error);
-      Alert.alert('❌ Database Error', error.message);
+      Alert.alert('Database Error', error.message);
     }
   };
 
@@ -136,16 +161,16 @@ export default function App() {
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         <Text style={styles.title}> Spendle Engine</Text>
         
-        {/* Step Trigger Action */}
-        <TouchableOpacity style={styles.scanButton} onPress={handleSimulateScan} disabled={loading}>
+        {/* button to scan */}
+        <TouchableOpacity style={styles.scanButton} onPress={handleScanReceipt} disabled={loading}>
           {loading ? (
             <ActivityIndicator color="#fff" />
           ) : (
-            <Text style={styles.buttonText}>🚀 Simulate Photo Upload & Scan</Text>
+            <Text style={styles.buttonText}>📷 Pick Receipt Photo & Scan</Text>
           )}
         </TouchableOpacity>
 
-        {/* Master Fields Block */}
+        {/* fields blocks */}
         <View style={styles.section}>
           <Text style={styles.label}>Merchant Name</Text>
           <TextInput style={styles.input} value={storeName} onChangeText={setStoreName} placeholder="e.g. Target" />
@@ -153,14 +178,20 @@ export default function App() {
           <Text style={styles.label}>Transaction Date</Text>
           <TextInput style={styles.input} value={purchaseDate} onChangeText={setPurchaseDate} placeholder="YYYY-MM-DD" />
 
+          <Text style={styles.label}>Transaction Time</Text>
+          <TextInput style={styles.input} value={purchaseTime} onChangeText={setPurchaseTime} placeholder="HH:MM:SS am/pm" />
+
           <Text style={styles.label}>Store Location</Text>
           <TextInput style={styles.input} value={location} onChangeText={setLocation} placeholder="Store address" multiline />
+
+          <Text style={styles.label}>Total Discounts ($)</Text>
+          <TextInput style={styles.input} value={discountTotal} keyboardType="numeric" onChangeText={setDiscountTotal} placeholder="0.00" />
 
           <Text style={styles.label}>Grand Total ($)</Text>
           <TextInput style={styles.input} value={totalAmount} keyboardType="numeric" onChangeText={setTotalAmount} placeholder="0.00" />
         </View>
 
-        {/* Line Items List View */}
+        {/* view line items */}
         {items.length > 0 && <Text style={styles.sectionTitle}>🛒 Line Items Editor</Text>}
         {items.map((item) => (
           <View key={item.id} style={styles.itemCard}>
@@ -192,7 +223,7 @@ export default function App() {
           </View>
         ))}
 
-        {/* Sync Confirmation Button */}
+        {/* sync confirmation button */}
         {items.length > 0 && (
           <TouchableOpacity style={styles.saveButton} onPress={saveReceiptToSupabase}>
             <Text style={styles.buttonText}>Confirm & Push to Supabase</Text>
