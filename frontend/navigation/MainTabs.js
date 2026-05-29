@@ -14,20 +14,20 @@ const Tab = createBottomTabNavigator();
 function ScanIcon() {
   return (
     <View style={{
-      width: 50,
-      height: 50,
-      borderRadius: 16,
+      width: 80,
+      height: 80,
+      borderRadius: 24,
       backgroundColor: C.gold,
       alignItems: 'center',
       justifyContent: 'center',
-      marginBottom: 6,
+      marginBottom: 24,
       shadowColor: C.gold,
       shadowOpacity: 0.35,
       shadowRadius: 14,
       shadowOffset: { width: 0, height: 4 },
       elevation: 8,
     }}>
-      <Ionicons name="scan-outline" size={22} color={C.goldText} />
+      <Ionicons name="scan-outline" size={35} color={C.goldText} />
     </View>
   );
 }

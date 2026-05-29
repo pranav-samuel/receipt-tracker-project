@@ -271,7 +271,7 @@ const s = StyleSheet.create({
     borderRadius: R.lg,
     paddingVertical: 16,
     marginBottom: 32,
-    marginTop: 8,
+    marginTop: 16,
   },
   scanDashedText: {
     color: C.gold,
