@@ -16,8 +16,9 @@ import { C, F, R, storeColor } from '../theme';
 
 function StoreAvatar({ name = '' }) {
   return (
+    
     <View style={[s.avatar, { backgroundColor: storeColor(name) }]}>
-      <Text style={s.avatarLetter}>{name.charAt(0).toUpperCase()}</Text>
+      <Text style={s.avatarLetter}> {name.charAt(0).toUpperCase()}</Text> {/* use first letter of username for now ig*/}
     </View>
   );
 }
@@ -41,6 +42,7 @@ export default function DashboardScreen({ navigation }) {
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
 
+  // recieve all receipts in a list on dashboard page
   const fetchReceipts = async () => {
     const { data } = await supabase
       .from('receipts')
@@ -69,6 +71,7 @@ export default function DashboardScreen({ navigation }) {
     fetchReceipts();
   };
 
+  // only 2 decimals for cents
   const fmt = (n) => `$${Number(n).toFixed(2)}`;
 
   const formatDate = (dateStr) => {

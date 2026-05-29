@@ -20,7 +20,7 @@ export default function AuthScreen() {
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
 
-  // login page
+  // login section
   const handleSignIn = async () => {
     if (!email || !password) {
       Alert.alert('Missing fields', 'Please enter your email and password.');
@@ -132,7 +132,7 @@ const s = StyleSheet.create({
     paddingHorizontal: 24,
   },
 
-  // wordmark
+  // spendle wording
   logoArea: {
     alignItems: 'center',
     marginBottom: 40,

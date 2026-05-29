@@ -78,10 +78,6 @@ export default function CaptureScreen({ navigation }) {
           </View>
         </View>
 
-        <Text style={s.hint}>
-          Full image is sent — no cropping needed. Works best in good lighting.
-        </Text>
-
         {/* primary action */}
         <TouchableOpacity
           style={s.primaryBtn}
@@ -131,7 +127,7 @@ const s = StyleSheet.create({
     marginBottom: 48,
   },
 
-  // double-bezel icon well
+  // double-bezel icon
   iconShell: {
     alignSelf: 'center',
     backgroundColor: C.surface,
@@ -153,15 +149,6 @@ const s = StyleSheet.create({
     height: 120,
     alignItems: 'center',
     justifyContent: 'center',
-  },
-
-  hint: {
-    fontSize: F.sm,
-    color: C.muted,
-    textAlign: 'center',
-    lineHeight: 20,
-    paddingHorizontal: 16,
-    marginBottom: 40,
   },
 
   primaryBtn: {

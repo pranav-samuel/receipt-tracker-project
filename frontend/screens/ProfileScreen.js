@@ -49,7 +49,7 @@ export default function ProfileScreen() {
           <Text style={s.emailText}>{email}</Text>
         </View>
 
-        {/* settings rows — placeholder */}
+        {/* settings rows, they dont do anythign rn but will update */}
         <View style={s.card}>
           <TouchableOpacity style={s.row} activeOpacity={0.7}>
             <Ionicons name="notifications-outline" size={20} color={C.sub} />
