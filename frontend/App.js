@@ -2,11 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { supabase } from './supabaseClient';
+import { C } from './theme';
 
 import AuthScreen from './screens/AuthScreen';
-import DashboardScreen from './screens/DashboardScreen';
-import CaptureScreen from './screens/CaptureScreen';
 import ReviewScreen from './screens/ReviewScreen';
+import MainTabs from './navigation/MainTabs';
 
 const Stack = createNativeStackNavigator();
 
@@ -34,21 +34,27 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator
-        screenOptions={{
-          headerStyle: { backgroundColor: '#3b82f6' },
-          headerTintColor: '#fff',
-          headerTitleStyle: { fontWeight: '700' },
-        }}
-      >
+      <Stack.Navigator screenOptions={{ headerShown: false }}>
         {session ? (
           <>
-            <Stack.Screen name="Dashboard" component={DashboardScreen} options={{ title: 'Spendle' }} />
-            <Stack.Screen name="Capture" component={CaptureScreen} options={{ title: 'Scan Receipt' }} />
-            <Stack.Screen name="Review" component={ReviewScreen} options={{ title: 'Review & Confirm' }} />
+            {/* maintabs is the bottom bar */}
+            <Stack.Screen name="Main" component={MainTabs} />
+            {/* review is on top of that */}
+            <Stack.Screen
+              name="Review"
+              component={ReviewScreen}
+              options={{
+                headerShown: true,
+                title: 'Review Receipt',
+                headerStyle: { backgroundColor: C.surface },
+                headerTintColor: C.text,
+                headerTitleStyle: { fontWeight: '600', color: C.text },
+                headerShadowVisible: false,
+              }}
+            />
           </>
         ) : (
-          <Stack.Screen name="Auth" component={AuthScreen} options={{ headerShown: false }} />
+          <Stack.Screen name="Auth" component={AuthScreen} />
         )}
       </Stack.Navigator>
     </NavigationContainer>
