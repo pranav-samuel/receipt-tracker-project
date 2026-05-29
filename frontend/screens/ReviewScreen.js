@@ -43,9 +43,12 @@ export default function ReviewScreen({ route, navigation }) {
     }
 
     try {
+      const { data: { session } } = await supabase.auth.getSession();
+
       const { data: receiptRow, error: receiptError } = await supabase
         .from('receipts')
         .insert([{
+          user_id: session.user.id,
           store_name: storeName,
           purchase_date: purchaseDate,
           purchase_time: purchaseTime || null,
